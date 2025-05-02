@@ -1,0 +1,41 @@
+def vacuum_cleaner_agent(location, room_status):
+    print("192372134-A.Dileep Kumar")
+    print(f"Initial Status: {room_status}")
+    print(f"Starting in Room {location}")
+
+    actions = []
+
+    # Step 1: If dirty, suck
+    if room_status[location] == "Dirty":
+        actions.append(f"Room {location} is Dirty → Suck")
+        room_status[location] = "Clean"
+    else:
+        actions.append(f"Room {location} is Clean → Move Right")
+
+    # Step 2: Move to the other room
+    next_location = "B" if location == "A" else "A"
+    actions.append(f"Move to Room {next_location}")
+
+    # Step 3: If dirty, suck
+    if room_status[next_location] == "Dirty":
+        actions.append(f"Room {next_location} is Dirty → Suck")
+        room_status[next_location] = "Clean"
+    else:
+        actions.append(f"Room {next_location} is Clean → Done")
+
+    # Final results
+    print("\nActions:")
+    for action in actions:
+        print("-", action)
+
+    print("\nFinal Status:", room_status)
+
+# Example usage
+if __name__ == "__main__":
+    # You can change the status below for testing
+    room_status = {
+        "A": "Dirty",
+        "B": "Dirty"
+    }
+    start_location = "A"
+    vacuum_cleaner_agent(start_location, room_status)
