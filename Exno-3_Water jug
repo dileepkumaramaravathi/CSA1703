@@ -1,60 +1,75 @@
+
 from collections import deque
-print("192372134-A.Dileep Kumar")
-def is_goal(x, y, target):
-    return x == target or y == target
-
-def bfs(a, b, target):
+print("192372134-A.Dileep kumar")
+def water_jug_bfs(jug1_cap, jug2_cap, target):
     visited = set()
-    queue = deque()
-    queue.append(((0, 0), []))  # (jugA, jugB), path
-
+    queue = deque([(0, 0, [])])  # (jug1, jug2, path)
+    
     while queue:
-        (x, y), path = queue.popleft()
-        if (x, y) in visited:
+        jug1, jug2, path = queue.popleft()
+        
+        if jug1 == target or jug2 == target:
+            # Print the solution path
+            print("\nSolution Path:")
+            print("(0, 0)")  # Initial state
+            for state in path:
+                print(state)
+            print(f"Target {target} reached!")
+            return True
+        
+        if (jug1, jug2) in visited:
             continue
-        visited.add((x, y))
-        path = path + [(x, y)]
-
-        if is_goal(x, y, target):
-            return path
-
-        # All possible operations
-        possible_states = [
-            (a, y),     # fill jug A
-            (x, b),     # fill jug B
-            (0, y),     # empty jug A
-            (x, 0),     # empty jug B
-            (x - min(x, b - y), y + min(x, b - y)),  # A -> B
-            (x + min(y, a - x), y - min(y, a - x)),  # B -> A
-        ]
-
-        for state in possible_states:
-            if state not in visited:
-                queue.append((state, path))
-
-    return None
-
-def print_solution(path):
-    print("Steps:")
-    for step in path:
-        print(f"Jug A: {step[0]}L, Jug B: {step[1]}L")
-    print(f"Reached target in {len(path) - 1} steps.")
+            
+        visited.add((jug1, jug2))
+        
+        # Generate all possible next states
+        # 1. Fill jug1
+        if jug1 < jug1_cap:
+            new_state = (jug1_cap, jug2)
+            queue.append((*new_state, path + [new_state]))
+        
+        # 2. Fill jug2
+        if jug2 < jug2_cap:
+            new_state = (jug1, jug2_cap)
+            queue.append((*new_state, path + [new_state]))
+        
+        # 3. Empty jug1
+        if jug1 > 0:
+            new_state = (0, jug2)
+            queue.append((*new_state, path + [new_state]))
+        
+        # 4. Empty jug2
+        if jug2 > 0:
+            new_state = (jug1, 0)
+            queue.append((*new_state, path + [new_state]))
+        
+        # 5. Pour from jug1 to jug2
+        pour_amount = min(jug1, jug2_cap - jug2)
+        if pour_amount > 0:
+            new_state = (jug1 - pour_amount, jug2 + pour_amount)
+            queue.append((*new_state, path + [new_state]))
+        
+        # 6. Pour from jug2 to jug1
+        pour_amount = min(jug2, jug1_cap - jug1)
+        if pour_amount > 0:
+            new_state = (jug1 + pour_amount, jug2 - pour_amount)
+            queue.append((*new_state, path + [new_state]))
+    
+    print("\nNo solution exists for these parameters.")
+    return False
 
 def main():
     print("Water Jug Problem Solver")
-    a = int(input("Enter capacity of Jug A: "))
-    b = int(input("Enter capacity of Jug B: "))
-    target = int(input("Enter target amount: "))
+    print("------------------------")
+    jug1 = 4  # Fixed as per your example
+    jug2 = 3   # Fixed as per your example
+    target = 2 # Fixed as per your example
+    
+    print(f"Jug sizes: {jug1}-gallon and {jug2}-gallon")
+    print(f"Target: {target} gallons\n")
+    
+    water_jug_bfs(jug1, jug2, target)
 
-    if target > max(a, b):
-        print("Target is greater than both jugs. Impossible!")
-        return
-
-    path = bfs(a, b, target)
-    if path:
-        print_solution(path)
-    else:
-        print("No solution possible.")
-
-if __name__ == "__main__":
+if __name__== "__main__":
     main()
+
