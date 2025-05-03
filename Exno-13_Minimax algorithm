@@ -1,0 +1,57 @@
+
+print("192372134-A.Dileep Kumar")
+def print_board(b): 
+    for r in b: print(" | ".join(r)); print("-"*5)
+
+def win(b, p):  # Check win for player p
+    return any(all(c == p for c in r) for r in b) or \
+           any(all(b[i][j] == p for i in range(3)) for j in range(3)) or \
+           all(b[i][i] == p for i in range(3)) or \
+           all(b[i][2-i] == p for i in range(3))
+
+def minimax(b, turn):
+    if win(b, 'O'): return 1
+    if win(b, 'X'): return -1
+    if all(c != " " for r in b for c in r): return 0
+    scores = []
+    for i in range(3):
+        for j in range(3):
+            if b[i][j] == " ":
+                b[i][j] = turn
+                score = minimax(b, 'X' if turn == 'O' else 'O')
+                scores.append(score)
+                b[i][j] = " "
+    return max(scores) if turn == 'O' else min(scores)
+
+def best_move(b):
+    best, move = -2, (0, 0)
+    for i in range(3):
+        for j in range(3):
+            if b[i][j] == " ":
+                b[i][j] = 'O'
+                score = minimax(b, 'X')
+                b[i][j] = " "
+                if score > best:
+                    best, move = score, (i, j)
+    return move
+
+def play():
+    b = [[" "]*3 for _ in range(3)]
+    print_board(b)
+    while True:
+        r, c = map(int, input("Your move (row col): ").split())
+        if b[r-1][c-1] != " ":
+            print("Cell taken!")
+            continue
+        b[r-1][c-1] = 'X'
+        print_board(b)
+        if win(b, 'X'): print("You win!"); break
+        if all(c != " " for r in b for c in r): print("Draw!"); break
+        i, j = best_move(b)
+        b[i][j] = 'O'
+        print("achyuth plays:")
+        print_board(b)
+        if win(b, 'O'): print(" dileep wins!"); break
+        if all(c != " " for r in b for c in r): print("Draw!"); break
+
+play()
