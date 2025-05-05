@@ -1,0 +1,25 @@
+from sklearn.tree import DecisionTreeClassifier
+print("192372134-A.Dileep kumar")
+# 1. Define the training data
+X = [[22, 0], [25, 1], [28, 1], [35, 1], [18, 0]]  # [Age, Has Job]
+y = [0, 1, 1, 1, 0]  # 1 = Loan Approved, 0 = Not Approved
+
+# 2. Create and train the model
+model = DecisionTreeClassifier()
+model.fit(X, y)
+
+# 3. Predict for a new input
+test_data = [[22, 1]]
+prediction = model.predict(test_data)
+
+# 4. Debug prints
+print("Training Data (X):", X)
+print("Labels (y):", y)
+print("Test Data:", test_data)
+print("Raw Prediction Output:", prediction)
+
+# 5. User-friendly output
+if prediction[0] == 1:
+    print("Prediction: ✅Loan Approved")
+else:
+    print("Prediction: ❌ Loan Not Approved")
