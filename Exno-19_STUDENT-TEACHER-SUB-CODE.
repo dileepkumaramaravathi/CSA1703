@@ -1,0 +1,49 @@
+/* Facts */
+
+/* Students */
+student(101, 'Alice').
+student(102, 'Bob').
+student(103, 'Charlie').
+
+/* Teachers */
+teacher(201, 'Dr. Smith').
+teacher(202, 'Prof. Johnson').
+
+/* Subjects */
+subject('CS101', 'Programming').
+subject('MATH202', 'Algebra').
+
+/* Enrollment: student_id, subject_code */
+enrolled(101, 'CS101').
+enrolled(102, 'CS101').
+enrolled(103, 'MATH202').
+
+/* Teaching: teacher_id, subject_code */
+teaches(201, 'CS101').
+teaches(202, 'MATH202').
+
+/* Rules */
+
+/* 1. Find which subject a student is taking */
+student_subject(StudentID, SubjectCode, SubjectName) :-
+    enrolled(StudentID, SubjectCode),
+    subject(SubjectCode, SubjectName).
+
+/* 2. Find which teacher is teaching a subject */
+subject_teacher(SubjectCode, TeacherName) :-
+    teaches(TeacherID, SubjectCode),
+    teacher(TeacherID, TeacherName).
+
+/* 3. Find the teacher of a student */
+student_teacher(StudentID, TeacherName) :-
+    enrolled(StudentID, SubjectCode),
+    teaches(TeacherID, SubjectCode),
+    teacher(TeacherID, TeacherName).
+
+/* 4. Find all students under a teacher */
+teacher_students(TeacherID, StudentNames) :-
+    findall(Name,
+        (teaches(TeacherID, SubCode),
+         enrolled(StudentID, SubCode),
+         student(StudentID, Name)),
+        StudentNames).
