@@ -1,0 +1,41 @@
+/* PLANETS DATABASE */
+
+/* Facts:
+   planet(Name, OrderFromSun, Type, Diameter_km, Mass_kg, NumberOfMoons).
+*/
+
+planet(mercury, 1, terrestrial, 4879, 3.30e23, 0).
+planet(venus, 2, terrestrial, 12104, 4.87e24, 0).
+planet(earth, 3, terrestrial, 12742, 5.97e24, 1).
+planet(mars, 4, terrestrial, 6779, 6.42e23, 2).
+planet(jupiter, 5, gas_giant, 139820, 1.90e27, 79).
+planet(saturn, 6, gas_giant, 116460, 5.68e26, 83).
+planet(uranus, 7, ice_giant, 50724, 8.68e25, 27).
+planet(neptune, 8, ice_giant, 49244, 1.02e26, 14).
+
+/* Rules */
+
+/* 1. Find all terrestrial planets */
+terrestrial_planet(Name) :-
+    planet(Name, _, terrestrial, _, _, _).
+
+/* 2. Find all planets with more than N moons */
+planets_with_moons(N, Name) :-
+    planet(Name, _, _, _, _, Moons),
+    Moons > N.
+
+/* 3. Get planet details by name */
+planet_info(Name, Order, Type, Diameter, Mass, Moons) :-
+    planet(Name, Order, Type, Diameter, Mass, Moons).
+
+/* 4. Find the largest planet by diameter */
+largest_planet(Name) :-
+    findall(Diameter-Planet, planet(Planet, _, _, Diameter, _, _), List),
+    keysort(List, Sorted),
+    reverse(Sorted, [_MaxDiameter-Name|_]).
+
+/* 5. Find planets within a certain range from the Sun */
+planets_in_range(Min, Max, Name) :-
+    planet(Name, Order, _, _, _, _),
+    Order >= Min,
+    Order =< Max.
