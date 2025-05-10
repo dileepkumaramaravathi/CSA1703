@@ -1,0 +1,43 @@
+% Declare move_count as dynamic for counting moves
+:- dynamic move_count/1.
+
+% Entry point
+start_hanoi :-
+    retractall(move_count(_)),
+    assertz(move_count(0)),
+    nl,
+    write('A. Dileep Kumar: 192372134'), nl,
+    write('Towers of Hanoi Solution for 3 Disks:'), nl, nl,
+    hanoi(3, left, right, center),
+    nl,
+    move_count(Total),
+    format('Total Moves: ~d~n', [Total]).
+
+% Base case: Move 1 disk
+hanoi(1, Start, End, _) :-
+    increment_count,
+    write_move(1, Start, End).
+
+% Recursive case: Move N disks
+hanoi(N, Start, End, Aux) :-
+    N > 1,
+    M is N - 1,
+    hanoi(M, Start, Aux, End),
+    increment_count,
+    write_move(N, Start, End),
+    hanoi(M, Aux, End, Start).
+
+% Increment the move count
+increment_count :-
+    move_count(X),
+    Y is X + 1,
+    retract(move_count(X)),
+    assertz(move_count(Y)).
+
+% Display the move with current count
+write_move(Disk, From, To) :-
+    move_count(Count),
+    format('Move ~d: Disk ~d from ~w to ~w~n', [Count, Disk, From, To]).
+
+% Start automatically when the file is loaded (optional)
+:- initialization(start_hanoi).
