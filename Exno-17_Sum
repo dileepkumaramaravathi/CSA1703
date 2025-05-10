@@ -1,0 +1,6 @@
+sum(1,1).
+sum(A,Result):-
+    A>1,
+    A1 is A-1,
+    sum(A1, B),
+    Result is A+B.
