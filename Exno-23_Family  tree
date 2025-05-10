@@ -1,0 +1,80 @@
+/* --- Student Info --- */
+print_student_info :-
+    nl,
+    write('A. Dileep Kumar: 192372134'), nl,
+    write('--- Family Tree Relationships ---'), nl, nl.
+
+/* --- Basic Facts --- */
+
+% parent(Parent, Child)
+parent(john, mary).
+parent(john, tom).
+parent(susan, mary).
+parent(susan, tom).
+parent(mary, alice).
+parent(mary, bob).
+parent(paul, alice).
+parent(paul, bob).
+parent(tom, jenny).
+parent(tom, jack).
+parent(lisa, jenny).
+parent(lisa, jack).
+
+% gender facts
+male(john).
+male(tom).
+male(paul).
+male(bob).
+male(jack).
+
+female(susan).
+female(mary).
+female(alice).
+female(jenny).
+female(lisa).
+
+/* --- Derived Relationships --- */
+
+% father(Father, Child)
+father(F, C) :-
+    parent(F, C),
+    male(F).
+
+% mother(Mother, Child)
+mother(M, C) :-
+    parent(M, C),
+    female(M).
+
+% sibling(Person1, Person2)
+sibling(X, Y) :-
+    parent(P, X),
+    parent(P, Y),
+    X \= Y.
+
+% grandparent(GP, GC)
+grandparent(GP, GC) :-
+    parent(GP, P),
+    parent(P, GC).
+
+% grandfather
+grandfather(GF, GC) :-
+    grandparent(GF, GC),
+    male(GF).
+
+% grandmother
+grandmother(GM, GC) :-
+    grandparent(GM, GC),
+    female(GM).
+
+/* --- Sample Query Wrapper --- */
+
+show_relationships(Person) :-
+    print_student_info,
+    format('Checking relationships for: ~w~n~n', [Person]),
+    (   father(F, Person) -> format('Father: ~w~n', [F]) ; true ),
+    (   mother(M, Person) -> format('Mother: ~w~n', [M]) ; true ),
+    findall(S, sibling(Person, S), Siblings),
+    (   Siblings \= [] -> format('Siblings: ~w~n', [Siblings]) ; true ),
+    findall(GP, grandparent(GP, Person), GPs),
+    (   GPs \= [] -> format('Grandparents: ~w~n', [GPs]) ; true ),
+    nl.
