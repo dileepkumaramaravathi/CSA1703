@@ -1,0 +1,36 @@
+% Facts
+symptom(john, fever).
+symptom(john, cough).
+symptom(john, sore_throat).
+
+symptom(mary, headache).
+symptom(mary, nausea).
+
+symptom(susan, fever).
+symptom(susan, rash).
+symptom(susan, headache).
+
+% Diseases
+disease(flu, fever).
+disease(flu, cough).
+disease(flu, sore_throat).
+
+disease(migraine, headache).
+disease(migraine, nausea).
+
+disease(measles, fever).
+disease(measles, rash).
+disease(measles, headache).
+
+% Diagnosis rule
+diagnosis(Person, Disease) :-
+    disease(Disease, Symptom),
+    symptom(Person, Symptom).
+
+% Multi-symptom rule to detect disease
+diagnosis(Person, Disease) :-
+    disease(Disease, Symptom1),
+    disease(Disease, Symptom2),
+    symptom(Person, Symptom1),
+    symptom(Person, Symptom2),
+    Symptom1 \= Symptom2.
