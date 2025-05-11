@@ -1,0 +1,22 @@
+/* Fruit and Color Program using Backtracking */
+/* Program by: A. Dileep Kumar - 192372134 */
+
+fruit(apple, red).
+fruit(banana, yellow).
+fruit(grape, purple).
+fruit(orange, orange).
+fruit(guava, green).
+fruit(mango, yellow).
+fruit(blueberry, blue).
+
+/* Main query to display your name and fruit-color list */
+get_fruit_color :-
+    nl,
+    write('Program by: A. Dileep Kumar - 192372134'), nl,
+    write('Fruits and their Colors:'), nl,
+    fruit(Fruit, Color),
+    format('- ~w is ~w in color.~n', [Fruit, Color]),
+    fail.
+
+get_fruit_color :-
+    write('All fruits listed.'), nl.
