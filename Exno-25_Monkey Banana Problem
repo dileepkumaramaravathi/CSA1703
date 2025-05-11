@@ -1,0 +1,21 @@
+/* Simple Monkey-Banana Problem Solution */
+:- initialization(start).
+
+start :-
+    write('Program by: A. Dileep Kumar - 192372134'), nl, nl,
+    write('Simple Monkey-Banana Problem Solver'), nl, nl,
+    solve_monkey_banana.
+
+solve_monkey_banana :-
+    nl,
+    write('Solution Steps:'), nl, nl,
+    write('1. Monkey moves from door to window'), nl,
+    write('2. Monkey pushes box from window to center'), nl,
+    write('3. Monkey climbs onto the box'), nl,
+    write('4. Monkey grabs the banana'), nl, nl,
+    write('The monkey got the banana! Problem solved!'), nl.
+
+/* Sample query information */
+:- initialization((
+    nl, write('To run manually: ?- solve_monkey_banana.'), nl
+)).
