@@ -1,0 +1,25 @@
+% Facts
+fact(apple, fruit).
+fact(banana, fruit).
+fact(carrot, vegetable).
+fact(lettuce, vegetable).
+
+% Rules (If condition then conclusion)
+rule(is_fruit(X), fact(X, fruit)).
+rule(is_vegetable(X), fact(X, vegetable)).
+
+% Forward Chaining Process
+forward_chaining(Fact) :-
+    fact(Fact, _),  % Base case: If it's already a fact, we're done
+    !.
+
+forward_chaining(Fact) :-
+    rule(Condition, fact(Fact, _)),
+    \+ fact(Fact, _),  % Prevent circular reasoning
+    assert(fact(Fact, _)),  % Assert the fact
+    forward_chaining(Fact).  % Continue to infer more facts
+
+% Query for forward chaining inference
+query(Fact) :-
+    forward_chaining(Fact),
+    fact(Fact, _).
