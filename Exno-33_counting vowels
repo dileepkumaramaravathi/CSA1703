@@ -1,0 +1,33 @@
+% Vowel Counting System  
+% Counts number of vowels in a given string  
+
+% Main predicate with name display  
+count_vowels :-  
+    write('Vowel Counting System by A. Dileep Kumar - 192372134'), nl,  
+    write('Enter a string (in quotes): '),  
+    read(Input),  
+    string_chars(Input, CharList),  % Convert string to list of characters
+    vowel_count(CharList, Count),  
+    write('Number of vowels: '), write(Count), nl,  
+    write('Process completed by A. Dileep Kumar - 192372134'), nl.  
+
+% Predicate to count vowels in the list  
+vowel_count([], 0).  
+vowel_count([Char|Tail], Count) :-  
+    vowel_count(Tail, TailCount),  
+    (   is_vowel(Char)  
+    ->  Count is TailCount + 1  
+    ;   Count is TailCount  
+    ).
+
+% Define vowels (case-insensitive)  
+is_vowel('a').  
+is_vowel('e').  
+is_vowel('i').  
+is_vowel('o').  
+is_vowel('u').  
+is_vowel('A').  
+is_vowel('E').  
+is_vowel('I').  
+is_vowel('O').  
+is_vowel('U').
