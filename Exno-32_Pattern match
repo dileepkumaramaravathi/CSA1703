@@ -1,0 +1,26 @@
+% Simple Pattern Matching System  
+% Shows matching between patterns and target strings  
+
+% Main predicate with name display  
+pattern_match :-  
+    write('Pattern Matching System by A. Dileep Kumar - 192372134'), nl,  
+    write('Enter pattern (in quotes): '),  
+    read(Pattern),  
+    write('Enter target string (in quotes): '),  
+    read(Target),  
+    (   match(Pattern, Target)  
+    ->  write('SUCCESS: Patterns match!'), nl  
+    ;   write('FAILURE: Patterns do not match'), nl  
+    ),  
+    write('Process completed by A. Dileep Kumar - 192372134'), nl.  
+
+% Base case: empty pattern matches empty string  
+match([], []).  
+
+% Wildcard matches any single character  
+match(['_'|Ptail], [_|Ttail]) :-  
+    match(Ptail, Ttail).  
+
+% Regular character match  
+match([Pchar|Ptail], [Pchar|Ttail]) :-  
+    match(Ptail, Ttail).  
